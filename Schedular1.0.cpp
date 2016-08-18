@@ -24,14 +24,14 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
 int main(){
 
   ifstream processQueue;
-  processQueue.open("testProcess.txt");
+  processQueue.open("inputProcesses.txt");
   if(!processQueue.is_open()){
     cout << "Could not open process queue. Program will terminate.";
     exit(EXIT_FAILURE);
   }
 
   ofstream processRun;
-  processRun.open("testRun.txt");
+  processRun.open("outputProcesses.txt");
   if(!processRun.is_open()){
     cout << "Could not open process run order. Program will terminate.";
     exit(EXIT_FAILURE);
