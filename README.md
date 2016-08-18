@@ -10,3 +10,5 @@ Features to be added to the program:
 - SJF scheduling
 - SRemainingJF sceduling
 - Export process execution timeline as a graph
+
+**If running**: download *inputProcesses.txt* to the same directory as the executable.
