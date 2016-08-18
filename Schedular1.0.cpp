@@ -20,6 +20,7 @@ struct timelineNode{
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
 void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
+string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime);
 
 int main(){
 
@@ -72,6 +73,12 @@ int main(){
   processQueue.close();
   processRun.close();
 
+  int enquiryTime;
+  cout << endl << "t = ";
+  cin >> enquiryTime;
+  string processAtEnquiryTime = getCurrentProcess(discreteTimeline, enquiryTime);
+  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << endl;
+
 return 0;
 }
 
@@ -105,4 +112,20 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
   additiveNode.label = "END";
   additiveNode.atTime = cumulativeTime;
   timeline.push_back(additiveNode);
+}
+
+string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
+  string currentProcessLabel;
+  bool currentProcessFound = false;
+  int i = 1;
+  while(currentProcessFound == false){
+    if(timeline[i].atTime > enquiryTime){
+      currentProcessLabel = timeline[i-1].label;
+      currentProcessFound = true;
+    }
+    else{
+      i++;
+    }
+  }
+  return currentProcessLabel;
 }
