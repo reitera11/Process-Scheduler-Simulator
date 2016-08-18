@@ -15,7 +15,8 @@ struct process{
 
 struct timelineNode{
   string label;
-  int atTime;
+  int startAtTime;
+  int finishAtTime;
 };
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
@@ -67,17 +68,18 @@ int main(){
   processRun << endl;
   processRun << "time:    ";
   for(int i = 0; i < discreteTimeline.size(); i++){
-    processRun << left << setw(6) << discreteTimeline[i].atTime;
+    processRun << left << setw(6) << discreteTimeline[i].startAtTime;
   }
 
   processQueue.close();
-  processRun.close();
+  processRun.close(); //close files before the end of the prgram so console features do not halt output file creation
 
   int enquiryTime;
   cout << endl << "t = ";
   cin >> enquiryTime;
   string processAtEnquiryTime = getCurrentProcess(discreteTimeline, enquiryTime);
-  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << endl;
+  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << " is executing." << endl;
+  cout << "Note: a process with label 'NONE' indicates no process is executing." << endl;
 
 return 0;
 }
@@ -100,27 +102,30 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
   for(int i = 0; i < sortedProcesses.size(); i++){
     if(sortedProcesses[i].arrivalTime > cumulativeTime){
       additiveNode.label = "NONE";
-      additiveNode.atTime = cumulativeTime;
+      additiveNode.startAtTime = cumulativeTime;
+      additiveNode.finishAtTime = sortedProcesses[i+1].arrivalTime; //No risk in accessing non-existing elements since a NONE cannot occur as the last 'process'
       timeline.push_back(additiveNode);
       cumulativeTime = sortedProcesses[i].arrivalTime;
     }
     additiveNode.label = sortedProcesses[i].label;
-    additiveNode.atTime = cumulativeTime;
+    additiveNode.startAtTime = cumulativeTime;
+    additiveNode.finishAtTime = cumulativeTime + sortedProcesses[i].length;
     timeline.push_back(additiveNode);
     cumulativeTime += sortedProcesses[i].length;
   }
   additiveNode.label = "END";
-  additiveNode.atTime = cumulativeTime;
+  additiveNode.startAtTime = cumulativeTime;
+  additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
 }
 
 string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
   string currentProcessLabel;
   bool currentProcessFound = false;
-  int i = 1;
+  int i = 0;
   while(currentProcessFound == false){
-    if(timeline[i].atTime > enquiryTime){
-      currentProcessLabel = timeline[i-1].label;
+    if(enquiryTime >= timeline[i].startAtTime && enquiryTime <= timeline[i].finishAtTime){
+      currentProcessLabel = timeline[i].label;
       currentProcessFound = true;
     }
     else{
