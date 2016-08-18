@@ -47,12 +47,12 @@ int main(){
 
   sortProcessDirectory(processDirectory);
 
-  processRun << endl << endl << "** PROCESS DETAILS **" << endl;
+  processRun << "** PROCESS DETAILS **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
   }
 
-  processRun << "** RUN ORDER **" << endl;
+  processRun << endl << "** RUN ORDER **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " ";
   }
@@ -60,7 +60,7 @@ int main(){
   vector<timelineNode> discreteTimeline;
   getDiscreteTimeline(processDirectory, discreteTimeline);
 
-  processRun << endl << "** EXECUTION TIMELINE **" << endl;
+  processRun << endl << endl << "** EXECUTION TIMELINE **" << endl;
   processRun << "process: ";
   for(int i = 0; i < discreteTimeline.size(); i++){
     processRun << left << setw(6) << discreteTimeline[i].label;
@@ -78,8 +78,8 @@ int main(){
   cout << endl << "t = ";
   cin >> enquiryTime;
   string processAtEnquiryTime = getCurrentProcess(discreteTimeline, enquiryTime);
-  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << " is executing." << endl;
-  cout << "Note: a process with label 'NONE' indicates no process is executing." << endl;
+  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << " was executing." << endl;
+  cout << endl << "Note: a process with label 'NONE' indicates no process was executing at the enquiry time." << endl;
 
 return 0;
 }
