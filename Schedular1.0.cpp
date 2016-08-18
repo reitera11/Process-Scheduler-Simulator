@@ -21,7 +21,7 @@ struct timelineNode{
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
 void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
-//string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime);
+string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime);
 
 int main(){
 
@@ -72,13 +72,14 @@ int main(){
   }
 
   processQueue.close();
-  processRun.close();
+  processRun.close(); //close files before the end of the prgram so console features do not halt output file creation
 
-  /*int enquiryTime;
+  int enquiryTime;
   cout << endl << "t = ";
   cin >> enquiryTime;
   string processAtEnquiryTime = getCurrentProcess(discreteTimeline, enquiryTime);
-  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << endl;*/
+  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << " is executing." << endl;
+  cout << "Note: a process with label 'NONE' indicates no process is executing." << endl;
 
 return 0;
 }
@@ -108,8 +109,7 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
     }
     additiveNode.label = sortedProcesses[i].label;
     additiveNode.startAtTime = cumulativeTime;
-    cumulativeTime += sortedProcesses[i].length;
-    additiveNode.finishAtTime = cumulativeTime;
+    additiveNode.finishAtTime = cumulativeTime + sortedProcesses[i].length;
     timeline.push_back(additiveNode);
     cumulativeTime += sortedProcesses[i].length;
   }
@@ -119,13 +119,13 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
   timeline.push_back(additiveNode);
 }
 
-/*string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
+string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
   string currentProcessLabel;
   bool currentProcessFound = false;
-  int i = 1;
+  int i = 0;
   while(currentProcessFound == false){
-    if(timeline[i].startAtTime > enquiryTime){
-      currentProcessLabel = timeline[i-1].label;
+    if(enquiryTime >= timeline[i].startAtTime && enquiryTime <= timeline[i].finishAtTime){
+      currentProcessLabel = timeline[i].label;
       currentProcessFound = true;
     }
     else{
@@ -134,4 +134,3 @@ void getDiscreteTimeline(const vector<process>& sortedProcesses, vector<timeline
   }
   return currentProcessLabel;
 }
-*/
