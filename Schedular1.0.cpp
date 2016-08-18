@@ -47,14 +47,14 @@ int main(){
 
   sortProcessDirectory(processDirectory);
 
-  processRun << "** RUN ORDER **" << endl;
-  for(int i = 0; i < processDirectory.size(); i++){
-    processRun << processDirectory[i].label << " ";
-  }
-
   processRun << endl << endl << "** PROCESS DETAILS **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
+  }
+
+  processRun << "** RUN ORDER **" << endl;
+  for(int i = 0; i < processDirectory.size(); i++){
+    processRun << processDirectory[i].label << " ";
   }
 
   vector<timelineNode> discreteTimeline;
@@ -124,7 +124,7 @@ string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
   bool currentProcessFound = false;
   int i = 0;
   while(currentProcessFound == false){
-    if(enquiryTime >= timeline[i].startAtTime && enquiryTime <= timeline[i].finishAtTime){
+    if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
       currentProcessLabel = timeline[i].label;
       currentProcessFound = true;
     }
