@@ -1,0 +1,12 @@
+** PROCESS DETAILS **
+A 1 3
+B 1 2
+C 2 4
+D 5 2
+
+** RUN ORDER **
+A B C D 
+
+** EXECUTION TIMELINE **
+process: NONE  A     B     C     D     END   
+time:    0     1     4     6     10    12    
