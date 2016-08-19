@@ -4,7 +4,7 @@ A program which emulates the process scheduler in operating systems.
 So far the program is entirely in C++.
 
 ## Schedular1.0
-Scheduler 1.0 implements FSFC scheduling and allows the user to enquire which process was running at any time through the console. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository.
+Scheduler 1.0 implements FSFC scheduling and allows the user to enquire by means of the console which process was running at any time. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository.
 The example input file *inputProcesses.txt* contains a small number of processes in the required format, for example:
 ```
 A 0 5
