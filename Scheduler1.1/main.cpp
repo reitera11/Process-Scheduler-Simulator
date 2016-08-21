@@ -63,10 +63,6 @@ int main(){
   vector<timelineNode> FCFSTimeline;
   getFCFSTimeline(processDirectory, FCFSTimeline);
 
-  vector<timelineNode> SJFTimeline;
-  getSJFTimeline(processDirectory, SJFTimeline);
-
-
   processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
   processRun << "process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
@@ -77,6 +73,9 @@ int main(){
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
   }
+
+  vector<timelineNode> SJFTimeline;
+  getSJFTimeline(processDirectory, SJFTimeline);
 
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
   processRun << "process: ";
@@ -95,8 +94,11 @@ int main(){
   int enquiryTime;
   cout << endl << "t = ";
   cin >> enquiryTime;
-  string processAtEnquiryTime = getCurrentProcess(FCFSTimeline, enquiryTime);
-  cout << endl << "At time t = " << enquiryTime << " the process with label " << processAtEnquiryTime << " was executing." << endl;
+  string processAtFCFSEnquiryTime = getCurrentProcess(FCFSTimeline, enquiryTime);
+  string processAtSJFEnquiryTime = getCurrentProcess(SJFTimeline, enquiryTime);
+  cout << endl << "At time t = " << enquiryTime << ":";
+  cout << "based on the FCFS scheduler, the process with label " << processAtFCFSEnquiryTime << " was executing." << endl;
+  cout << "               " << "based on the SJF scheduler, the process with label " << processAtSJFEnquiryTime << " was executing." << endl;
   cout << endl << "Note: a process with label" << NO_PROCESS_LABEL << " indicates no process was executing at the enquiry time." << endl;
 
 return 0;
@@ -162,18 +164,19 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
   int cumulativeTime = 0;
   timelineNode additiveNode;
   vector<process> waitingProcesses;
-    int waitingProcessesAdded = 0;
+  int waitingProcessesAdded = 0;
+  int overallIterator = 0;
   // bool processesAreWaiting; //add in for case when only one process is waiting. No need to sort vector etc.
-  for(int i = 0; i < sortedProcesses.size(); i++){
-    if(sortedProcesses[i].arrivalTime > cumulativeTime){
+  for(overallIterator; overallIterator < sortedProcesses.size(); overallIterator++){
+    if(sortedProcesses[overallIterator].arrivalTime > cumulativeTime){
       additiveNode.label = NO_PROCESS_LABEL;
       additiveNode.startAtTime = cumulativeTime;
-      additiveNode.finishAtTime = sortedProcesses[i+1].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+      additiveNode.finishAtTime = sortedProcesses[overallIterator+1].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
       timeline.push_back(additiveNode);
-      cumulativeTime = sortedProcesses[i].arrivalTime;
+      cumulativeTime = sortedProcesses[overallIterator].arrivalTime;
     }
-    for(int j = i; j < sortedProcesses.size(); j++){ //need to find alternative stable way, for loop not needed since processes are already sorted
-      waitingProcessesAdded = 0;
+    waitingProcessesAdded = 0;
+    for(int j = overallIterator; j < sortedProcesses.size(); j++){ //need to find alternative stable way, for loop not needed since processes are already sorted
       if (sortedProcesses[j].arrivalTime <= cumulativeTime){
         waitingProcesses.push_back(sortedProcesses[j]);
         waitingProcessesAdded++;
@@ -200,8 +203,9 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
     cumulativeTime += waitingProcesses[0].length;
     waitingProcesses.erase(waitingProcesses.begin());
 
-    i += (waitingProcessesAdded - 1);
+    overallIterator += (waitingProcessesAdded - 1);
   }
+
   if(waitingProcesses.size() != 0){
     for(int p = 0; p < waitingProcesses.size(); p++){
       additiveNode.label = waitingProcesses[p].label;
@@ -211,4 +215,8 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
       cumulativeTime += waitingProcesses[p].length;
     }
   }
+  additiveNode.label = "END";
+  additiveNode.startAtTime = cumulativeTime;
+  additiveNode.finishAtTime = cumulativeTime;
+  timeline.push_back(additiveNode);
 }

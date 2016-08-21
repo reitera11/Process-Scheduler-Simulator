@@ -1,0 +1,17 @@
+** PROCESS DETAILS **
+A 0 3
+B 2 6
+C 4 4
+D 6 5
+E 8 2
+
+** PROCESS ARRIVAL ORDER **
+A B C D E 
+
+** FCFS EXECUTION TIMELINE **
+process: A     B     C     D     E     END   
+time:    0     3     9     13    18    20    
+
+** SJF EXECUTION TIMELINE **
+process: A     B     E     C     D     END   
+time:    0     3     9     11    15    20    
