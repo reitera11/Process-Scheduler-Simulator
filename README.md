@@ -3,9 +3,10 @@
 A program which emulates the process scheduler in operating systems.
 So far the program is entirely in C++.
 
-## Schedular1.0
-Scheduler 1.0 implements FSFC scheduling and allows the user to enquire by means of the console which process was running at any time. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository.
-The example input file *inputProcesses.txt* contains a small number of processes in the required format, for example:
+The latest stable version is: **Scheduler1.1**.
+
+##Input File Format
+Given an example input .txt file:
 ```
 A 0 5
 B 2 3
@@ -18,17 +19,20 @@ The arrival time and length are interpreted as integer types.
 
 There are no a priori restrictions on the number of processes the scheduler can handle.
 
+## Scheduler1.1
+Scheduler 1.1 implments FSFC and SJF schduling. The user is also able to enquire, by means of console I/O, which process was executing (based on both algorithms) at a user-specified time. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository.
 
+There are a number of minor differences between Scheduler1.0 and Scheduler1.1 such as variable and attribute names. These differences were implemented in the development between 1.0 and 1.1 to allow for more scheduling algorithms to be included while maintaining consistency and code readability. 
+
+## Scheduler1.0
+Scheduler 1.0 implements FSFC scheduling and allows the user to enquire by means of console I/O which process was running at any time. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository.
+
+##Program Features
 Features currently part of the program:
 - FSFC or FIFO scheduling
-- Enquiry of which process was running at a certain time
+- Enquiry of which process was running at a user-specified time
+- SJF scheduling
 
 Features to be added to the program:
-- SJF scheduling
 - SRemainingJF sceduling
 - Export process execution timeline as a graph
-
-The forthcoming plan is to spend one final session on this project:
-- Upgrade version to 1.1
-- Implement SJF
-- Implement SRJF
