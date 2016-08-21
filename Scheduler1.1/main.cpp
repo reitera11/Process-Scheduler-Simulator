@@ -168,7 +168,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
   int overallIterator = 0;
   // bool processesAreWaiting; //add in for case when only one process is waiting. No need to sort vector etc.
   for(overallIterator; overallIterator < sortedProcesses.size(); overallIterator++){
-    if(sortedProcesses[overallIterator].arrivalTime > cumulativeTime){
+    if( (sortedProcesses[overallIterator].arrivalTime > cumulativeTime) && (waitingProcesses.size() == 0)){
       additiveNode.label = NO_PROCESS_LABEL;
       additiveNode.startAtTime = cumulativeTime;
       additiveNode.finishAtTime = sortedProcesses[overallIterator+1].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
