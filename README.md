@@ -34,6 +34,6 @@ Features currently part of the program:
 - SJF scheduling
 
 Features to be added to the program:
-- Average waiting and turnaround times
+- Average waiting and turnaround time
 - SRemainingJF sceduling
 - Export process execution timeline as a graph
