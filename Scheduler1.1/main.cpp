@@ -63,7 +63,11 @@ int main(){
   vector<timelineNode> FCFSTimeline;
   getFCFSTimeline(processDirectory, FCFSTimeline);
 
-  processRun << endl << endl << "** EXECUTION TIMELINE **" << endl;
+  vector<timelineNode> SJFTimeline;
+  getSJFTimeline(processDirectory, SJFTimeline);
+
+
+  processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
   processRun << "process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].label;
@@ -72,6 +76,17 @@ int main(){
   processRun << "time:    ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
+  }
+
+  processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
+  processRun << "process: ";
+  for(int i = 0; i < SJFTimeline.size(); i++){
+    processRun << left << setw(6) << SJFTimeline[i].label;
+  }
+  processRun << endl;
+  processRun << "time:    ";
+  for(int i = 0; i < SJFTimeline.size(); i++){
+    processRun << left << setw(6) << SJFTimeline[i].startAtTime;
   }
 
   processQueue.close();
@@ -89,12 +104,17 @@ return 0;
 
 void sortProcessDirectory(vector<process>& unsortedProcesses){
   for(int j = 0; j < unsortedProcesses.size() - 1; j++){
+    bool didSwap = false;
     for(int i = 1; i < unsortedProcesses.size(); i++){
       if(unsortedProcesses[i-1].arrivalTime > unsortedProcesses[i].arrivalTime){
         process tmpProcess = unsortedProcesses[i-1];
         unsortedProcesses[i-1] = unsortedProcesses[i];
         unsortedProcesses[i] = tmpProcess;
+        didSwap = true;
       }
+    }
+    if(!didSwap){
+      j = unsortedProcesses.size() + 1;
     }
   }
 }
@@ -142,7 +162,8 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
   int cumulativeTime = 0;
   timelineNode additiveNode;
   vector<process> waitingProcesses;
-  bool processesAreWaiting;
+    int waitingProcessesAdded = 0;
+  // bool processesAreWaiting; //add in for case when only one process is waiting. No need to sort vector etc.
   for(int i = 0; i < sortedProcesses.size(); i++){
     if(sortedProcesses[i].arrivalTime > cumulativeTime){
       additiveNode.label = NO_PROCESS_LABEL;
@@ -151,15 +172,17 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
       timeline.push_back(additiveNode);
       cumulativeTime = sortedProcesses[i].arrivalTime;
     }
-    for(int j = i; j < sortedProcesses.size(); j++){
-      if sortedProcesses[j].arrivalTime <= cumulativeTime{
+    for(int j = i; j < sortedProcesses.size(); j++){ //need to find alternative stable way, for loop not needed since processes are already sorted
+      waitingProcessesAdded = 0;
+      if (sortedProcesses[j].arrivalTime <= cumulativeTime){
         waitingProcesses.push_back(sortedProcesses[j]);
+        waitingProcessesAdded++;
       }
     }
     for(int j = 0; j < waitingProcesses.size() - 1; j++){
       bool didSwap = false;
       for(int k = 1; k < waitingProcesses.size(); k++){
-        if(waitingProcesses[k-1].arrivalTime > waitingProcesses[k].arrivalTime){
+        if(waitingProcesses[k-1].length > waitingProcesses[k].length){
           process tmpProcess = waitingProcesses[k-1];
           waitingProcesses[k-1] = waitingProcesses[k];
           waitingProcesses[k] = tmpProcess;
@@ -170,18 +193,22 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
         j = waitingProcesses.size() + 1;
       }
     }
+    additiveNode.label = waitingProcesses[0].label;
+    additiveNode.startAtTime = cumulativeTime;
+    additiveNode.finishAtTime = cumulativeTime + waitingProcesses[0].length;
+    timeline.push_back(additiveNode);
+    cumulativeTime += waitingProcesses[0].length;
+    waitingProcesses.erase(waitingProcesses.begin());
 
-
-
-
-
-
-
-
-
-    if(sortedProcesses[i].arrivalTime <= cumulativeTime){
-      vector<process> processesWaiting;
-      processesWaiting.push_back(sortedProcesses[i]);
+    i += (waitingProcessesAdded - 1);
+  }
+  if(waitingProcesses.size() != 0){
+    for(int p = 0; p < waitingProcesses.size(); p++){
+      additiveNode.label = waitingProcesses[p].label;
+      additiveNode.startAtTime = cumulativeTime;
+      additiveNode.finishAtTime = cumulativeTime + waitingProcesses[p].length;
+      timeline.push_back(additiveNode);
+      cumulativeTime += waitingProcesses[p].length;
     }
   }
 }
