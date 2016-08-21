@@ -14,8 +14,8 @@ C 5 2
 ```
 The first column contains the process label, that is to say: this example shows three processes with labels `A`, `B` and `C`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of 0 and a length of 5.
 
-The process label are interpreted as string types should one wish to use more meaningful labels.
-The arrival time and length are interpreted as integer types.
+The process label is interpreted as string type should one wish to use more meaningful labels.
+The arrival time and length are interpreted as integer type.
 
 There are no a priori restrictions on the number of processes the scheduler can handle.
 
