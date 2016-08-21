@@ -22,8 +22,8 @@ struct timelineNode{
 };
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
-void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime);
+void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 
 int main(){
@@ -121,6 +121,22 @@ void sortProcessDirectory(vector<process>& unsortedProcesses){
   }
 }
 
+string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
+  string currentProcessLabel;
+  bool currentProcessFound = false;
+  int i = 0;
+  while(currentProcessFound == false){
+    if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
+      currentProcessLabel = timeline[i].label;
+      currentProcessFound = true;
+    }
+    else{
+      i++;
+    }
+  }
+  return currentProcessLabel;
+}
+
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
   int cumulativeTime = 0;
   timelineNode additiveNode;
@@ -142,22 +158,6 @@ void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode
   additiveNode.startAtTime = cumulativeTime;
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
-}
-
-string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
-  string currentProcessLabel;
-  bool currentProcessFound = false;
-  int i = 0;
-  while(currentProcessFound == false){
-    if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
-      currentProcessLabel = timeline[i].label;
-      currentProcessFound = true;
-    }
-    else{
-      i++;
-    }
-  }
-  return currentProcessLabel;
 }
 
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
