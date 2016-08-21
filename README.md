@@ -3,7 +3,7 @@
 A program which emulates the process scheduler in operating systems.
 So far the program is entirely in C++.
 
-The latest stable version is: **Scheduler1.1**.
+The current stable version of the scheduler is: **Scheduler1.1**.
 
 ##Input File Format
 Given an example input .txt file:
