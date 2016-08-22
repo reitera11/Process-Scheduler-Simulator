@@ -22,7 +22,6 @@ struct timelineNode{
 };
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
-bool findCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime, string& currentProcessLabel);
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 
@@ -91,21 +90,6 @@ int main(){
   processQueue.close();
   processRun.close(); //close files before the end of the prgram so console features do not halt output file creation
 
-  int enquiryTime;
-  cout << endl << "t = ";
-  cin >> enquiryTime;
-  string processAtFCFSEnquiryTime;
-  string processAtSJFEnquiryTime;
-  if( findCurrentProcess(FCFSTimeline, enquiryTime, processAtFCFSEnquiryTime) && findCurrentProcess(SJFTimeline, enquiryTime, processAtSJFEnquiryTime) ){
-    cout << endl << "At time t = " << enquiryTime << ":" << endl;
-    cout << "based on the FCFS scheduler, the process with label " << processAtFCFSEnquiryTime << " was executing." << endl;
-    cout << "based on the SJF scheduler, the process with label " << processAtSJFEnquiryTime << " was executing." << endl;
-    cout << endl << "Note: a process with label " << NO_PROCESS_LABEL << " indicates no process was executing at the enquiry time." << endl;
-  }
-  else{
-    cout << endl << "Error: the enquiry time (" << enquiryTime << ") entered is invaild. Please check outputProcesses.txt" << endl;
-  }
-
 return 0;
 }
 
@@ -125,24 +109,6 @@ void sortProcessDirectory(vector<process>& unsortedProcesses){
     }
   }
 }
-
-bool findCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime, string& currentProcessLabel){
-  bool currentProcessFound = false;
-  if(enquiryTime > timeline[timeline.size() - 1].finishAtTime || enquiryTime < timeline[0].startAtTime){
-    currentProcessFound = false; // enquiryTime is outside of the times in which processes are executing
-  }
-  else{
-    for(int i = 0; i < timeline.size(); i++){
-      if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
-        currentProcessLabel = timeline[i].label;
-        currentProcessFound = true;
-        i = timeline.size() + 1; // to exit the for loop earlier
-      }
-    }
-  }
-  return currentProcessFound;
-}
-
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
   int cumulativeTime = 0;
   timelineNode additiveNode;
@@ -165,7 +131,6 @@ void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
 }
-
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
   int cumulativeTime = 0;
   timelineNode additiveNode;
