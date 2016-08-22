@@ -215,7 +215,18 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
   while(processesStillWaiting){
     processesStillWaiting = false; // set to false so unless timeRemaining is bigger than 0, it will remain false and exit loop
     for(int i = 0; i < sortedProcesses.size(); i++){
-      if(sortedProcesses[i].timeRemaining > 0){
+      if( (sortedProcesses[i].arrivalTime > cumulativeTime) && (!processesStillWaiting) ){
+        additiveNode.label = NO_PROCESS_LABEL;
+        additiveNode.startAtTime = cumulativeTime;
+        additiveNode.finishAtTime = sortedProcesses[i+1].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+        timeline.push_back(additiveNode);
+        cumulativeTime = sortedProcesses[i].arrivalTime;
+
+      }
+      else if( (sortedProcesses[i].arrivalTime > cumulativeTime) && (processesStillWaiting) ){
+        i = - 1;
+      }
+      else if(sortedProcesses[i].timeRemaining > 0){
         additiveNode.label = sortedProcesses[i].label;
         additiveNode.startAtTime = cumulativeTime;
         if(sortedProcesses[i].timeRemaining >= timeQuantum){
@@ -231,7 +242,12 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
         timeline.push_back(additiveNode);
         processesStillWaiting = true;
       }
+
     }
+    additiveNode.label = "END";
+    additiveNode.startAtTime = cumulativeTime;
+    additiveNode.finishAtTime = cumulativeTime;
+    timeline.push_back(additiveNode);
   }
   additiveNode.label = "END";
   additiveNode.startAtTime = cumulativeTime;
