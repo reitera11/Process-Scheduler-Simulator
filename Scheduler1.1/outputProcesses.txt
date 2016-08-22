@@ -6,15 +6,15 @@ D 6 5
 E 8 2
 F 21 8
 G 24 7
-H 25 2
+H 1 1
 
 ** PROCESS ARRIVAL ORDER **
-A B C D E F G H 
+A H B C D E F G 
 
 ** FCFS EXECUTION TIMELINE **
-process: A     B     C     D     E     NONE  F     G     H     END   
-time:    0     3     9     13    18    20    21    29    36    38    
+process: A     H     B     C     D     E     F     G     END   
+time:    0     3     4     10    14    19    21    29    36    
 
 ** SJF EXECUTION TIMELINE **
-process: A     B     E     C     D     NONE  F     H     G     END   
-time:    0     3     9     11    15    20    21    29    31    38    
+process: A     H     C     E     D     B     F     G     END   
+time:    0     3     4     8     10    15    21    29    36    

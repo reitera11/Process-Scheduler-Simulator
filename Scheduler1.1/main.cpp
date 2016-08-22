@@ -22,7 +22,7 @@ struct timelineNode{
 };
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
-string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime);
+bool findCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime, string& currentProcessLabel);
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 
@@ -48,12 +48,12 @@ int main(){
     processDirectory.push_back(additiveProcess);
   }
 
-  sortProcessDirectory(processDirectory);
-
   processRun << "** PROCESS DETAILS **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
   }
+
+  sortProcessDirectory(processDirectory);
 
   processRun << endl << "** PROCESS ARRIVAL ORDER **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
@@ -94,19 +94,24 @@ int main(){
   int enquiryTime;
   cout << endl << "t = ";
   cin >> enquiryTime;
-  string processAtFCFSEnquiryTime = getCurrentProcess(FCFSTimeline, enquiryTime);
-  string processAtSJFEnquiryTime = getCurrentProcess(SJFTimeline, enquiryTime);
-  cout << endl << "At time t = " << enquiryTime << ":";
-  cout << "based on the FCFS scheduler, the process with label " << processAtFCFSEnquiryTime << " was executing." << endl;
-  cout << "               " << "based on the SJF scheduler, the process with label " << processAtSJFEnquiryTime << " was executing." << endl;
-  cout << endl << "Note: a process with label" << NO_PROCESS_LABEL << " indicates no process was executing at the enquiry time." << endl;
+  string processAtFCFSEnquiryTime;
+  string processAtSJFEnquiryTime;
+  if( findCurrentProcess(FCFSTimeline, enquiryTime, processAtFCFSEnquiryTime) && findCurrentProcess(SJFTimeline, enquiryTime, processAtSJFEnquiryTime) ){
+    cout << endl << "At time t = " << enquiryTime << ":" << endl;
+    cout << "based on the FCFS scheduler, the process with label " << processAtFCFSEnquiryTime << " was executing." << endl;
+    cout << "based on the SJF scheduler, the process with label " << processAtSJFEnquiryTime << " was executing." << endl;
+    cout << endl << "Note: a process with label " << NO_PROCESS_LABEL << " indicates no process was executing at the enquiry time." << endl;
+  }
+  else{
+    cout << endl << "Error: the enquiry time (" << enquiryTime << ") entered is invaild. Please check outputProcesses.txt" << endl;
+  }
 
 return 0;
 }
 
 void sortProcessDirectory(vector<process>& unsortedProcesses){
-  for(int j = 0; j < unsortedProcesses.size() - 1; j++){
-    bool didSwap = false;
+  for(int j = 0; j < unsortedProcesses.size() - 1; j++){ // bubble sort
+    bool didSwap = false; // set if a swap occurs
     for(int i = 1; i < unsortedProcesses.size(); i++){
       if(unsortedProcesses[i-1].arrivalTime > unsortedProcesses[i].arrivalTime){
         process tmpProcess = unsortedProcesses[i-1];
@@ -115,26 +120,27 @@ void sortProcessDirectory(vector<process>& unsortedProcesses){
         didSwap = true;
       }
     }
-    if(!didSwap){
+    if(!didSwap){ // if no swap occured in a single pass, the vector is sorted
       j = unsortedProcesses.size() + 1;
     }
   }
 }
 
-string getCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime){
-  string currentProcessLabel;
+bool findCurrentProcess(const vector<timelineNode>& timeline, int enquiryTime, string& currentProcessLabel){
   bool currentProcessFound = false;
-  int i = 0;
-  while(currentProcessFound == false){
-    if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
-      currentProcessLabel = timeline[i].label;
-      currentProcessFound = true;
-    }
-    else{
-      i++;
+  if(enquiryTime > timeline[timeline.size() - 1].finishAtTime || enquiryTime < timeline[0].startAtTime){
+    currentProcessFound = false; // enquiryTime is outside of the times in which processes are executing
+  }
+  else{
+    for(int i = 0; i < timeline.size(); i++){
+      if(enquiryTime >= timeline[i].startAtTime && enquiryTime < timeline[i].finishAtTime){
+        currentProcessLabel = timeline[i].label;
+        currentProcessFound = true;
+        i = timeline.size() + 1; // to exit the for loop earlier
+      }
     }
   }
-  return currentProcessLabel;
+  return currentProcessFound;
 }
 
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
