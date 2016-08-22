@@ -5,7 +5,8 @@
 #include <fstream>
 #include <iomanip>
 
-#define NO_PROCESS_LABEL "NONE" //The literal used as a label to describe the state when no process is executing
+#define NO_PROCESS_LABEL "NONE" // The literal used as a label to describe the state when no process is executing
+#define TIME_QUANTUM 3
 
 using namespace std;
 
@@ -13,6 +14,7 @@ struct process{
   string label;
   int arrivalTime;
   int length;
+  int timeRemaining; // only used for Round Robin algorithm
 };
 
 struct timelineNode{
@@ -24,6 +26,7 @@ struct timelineNode{
 void sortProcessDirectory(vector<process>& unsortedProcesses);
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
+void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline);
 
 int main(){
 
@@ -44,6 +47,7 @@ int main(){
   vector<process> processDirectory;
   process additiveProcess;
   while(processQueue >> additiveProcess.label >> additiveProcess.arrivalTime >> additiveProcess.length){
+    additiveProcess.timeRemaining = additiveProcess.length; // only used for Round Robin algorithm
     processDirectory.push_back(additiveProcess);
   }
 
@@ -85,6 +89,20 @@ int main(){
   processRun << "time:    ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
+  }
+
+  vector<timelineNode> RRTimeline;
+  getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline);
+
+  processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
+  processRun << "process: ";
+  for(int i = 0; i < RRTimeline.size(); i++){
+    processRun << left << setw(6) << RRTimeline[i].label;
+  }
+  processRun << endl;
+  processRun << "time:    ";
+  for(int i = 0; i < RRTimeline.size(); i++){
+    processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
 
   processQueue.close();
@@ -183,6 +201,36 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
       additiveNode.finishAtTime = cumulativeTime + waitingProcesses[p].length;
       timeline.push_back(additiveNode);
       cumulativeTime += waitingProcesses[p].length;
+    }
+  }
+  additiveNode.label = "END";
+  additiveNode.startAtTime = cumulativeTime;
+  additiveNode.finishAtTime = cumulativeTime;
+  timeline.push_back(additiveNode);
+}
+void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline){
+  int cumulativeTime = 0;
+  timelineNode additiveNode;
+  bool processesStillWaiting = true;
+  while(processesStillWaiting){
+    processesStillWaiting = false; // set to false so unless timeRemaining is bigger than 0, it will remain false and exit loop
+    for(int i = 0; i < sortedProcesses.size(); i++){
+      if(sortedProcesses[i].timeRemaining > 0){
+        additiveNode.label = sortedProcesses[i].label;
+        additiveNode.startAtTime = cumulativeTime;
+        if(sortedProcesses[i].timeRemaining >= timeQuantum){
+          additiveNode.finishAtTime = cumulativeTime + timeQuantum; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+          cumulativeTime += timeQuantum;
+          sortedProcesses[i].timeRemaining -= timeQuantum;
+        }
+        else{
+          additiveNode.finishAtTime = cumulativeTime + sortedProcesses[i].timeRemaining;
+          cumulativeTime += sortedProcesses[i].timeRemaining;
+          sortedProcesses[i].timeRemaining = 0;
+        }
+        timeline.push_back(additiveNode);
+        processesStillWaiting = true;
+      }
     }
   }
   additiveNode.label = "END";
