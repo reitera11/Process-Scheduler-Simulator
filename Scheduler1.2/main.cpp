@@ -77,20 +77,21 @@ int main(){
   sortProcessDirectory(processDirectory);
 
   processRun << endl << endl << "** PROCESS ARRIVAL ORDER **" << endl;
+  processRun << "     process: ";
   for(int i = 0; i < processDirectory.size(); i++){
-    processRun << processDirectory[i].label << " ";
+    processRun << left << setw(6) << processDirectory[i].label;
   }
 
   vector<timelineNode> FCFSTimeline;
   getFCFSTimeline(processDirectory, FCFSTimeline);
 
   processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
-  processRun << "process: ";
+  processRun << "     process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].label;
   }
   processRun << endl;
-  processRun << "time:    ";
+  processRun << "        time: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
   }
@@ -99,12 +100,12 @@ int main(){
   getSJFTimeline(processDirectory, SJFTimeline);
 
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
-  processRun << "process: ";
+  processRun << "     process: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].label;
   }
   processRun << endl;
-  processRun << "time:    ";
+  processRun << "        time: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
   }
@@ -113,12 +114,12 @@ int main(){
   getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline);
 
   processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
-  processRun << "process: ";
+  processRun << "     process: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].label;
   }
   processRun << endl;
-  processRun << "time:    ";
+  processRun << "        time: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
