@@ -22,9 +22,26 @@ There are no a priori restrictions on the number of processes the scheduler can 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository folder. Furthermore, an image (*roundRobinExample.png*) [1], is also included in the repository folder.
 
+[1] - Created by Wikipedia user [Maxtremus](https://en.wikipedia.org/wiki/Round-robin_scheduling#/media/File:Round-robin_schedule_quantum_3.png "Round Robin example image credits")
+
 The image is a diagrmmatic representation of the execution timeline that corresponds to the example input and output files mentioned above.
 
-[1] - Created by Wikipedia user Maxtremus 
+An interesting feature of this Round Robin implementation is the way it deals with gaps between processes. Given the following input:
+
+```
+A 1 4
+B 2 3
+C 3 2
+D 11 2
+```
+
+the Round Robin execution timeline is:
+
+```
+** ROUND ROBIN EXECUTION TIMELINE **
+     process: NONE  A     B     C     A     NONE  D     END   
+        time: 0     1     4     7     9     10    11    13    
+```
 
 ## Scheduler1.1
 Scheduler 1.1 implements FSFC and SJF scheduling. Example input and output files (*inputProcesses.txt* and *outputProcesses.txt*) are included in the repository folder.
