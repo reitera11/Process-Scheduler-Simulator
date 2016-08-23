@@ -22,7 +22,7 @@ The arrival time and length are interpreted as integer type.
 There are no a priori restrictions on the number of processes the scheduler can handle.
 
 ## Scheduler1.2
-Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*])(scheduler1.2/roundRobinExample.png) [1], is also included in the repository folder.
+Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](../scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](../scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*])(../scheduler1.2/roundRobinExample.png) [1], is also included in the repository folder.
 
 [1] - Created by Wikipedia user [Maxtremus](https://en.wikipedia.org/wiki/Round-robin_scheduling#/media/File:Round-robin_schedule_quantum_3.png "Round Robin example image credits")
 
