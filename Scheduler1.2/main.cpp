@@ -5,7 +5,8 @@
 #include <fstream>
 #include <iomanip>
 
-#define NO_PROCESS_LABEL "NONE" //The literal used as a label to describe the state when no process is executing
+#define NO_PROCESS_LABEL "NONE" // The literal used as a label to describe the state when no process is executing
+#define TIME_QUANTUM 3
 
 using namespace std;
 
@@ -13,6 +14,7 @@ struct process{
   string label;
   int arrivalTime;
   int length;
+  int timeRemaining; // only used for Round Robin algorithm
 };
 
 struct timelineNode{
@@ -24,6 +26,8 @@ struct timelineNode{
 void sortProcessDirectory(vector<process>& unsortedProcesses);
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
+bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProcess);
+void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline);
 
 int main(){
 
@@ -44,31 +48,50 @@ int main(){
   vector<process> processDirectory;
   process additiveProcess;
   while(processQueue >> additiveProcess.label >> additiveProcess.arrivalTime >> additiveProcess.length){
+    additiveProcess.timeRemaining = additiveProcess.length; // only used for Round Robin algorithm
     processDirectory.push_back(additiveProcess);
   }
 
-  processRun << "** PROCESS DETAILS **" << endl;
+  processRun << "** PROCESS INPUT **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
   }
 
+
+  processRun << endl << "** INTERPRETED PROCESS INPUT **" << endl;
+  processRun << "     process: ";
+  for(int i = 0; i < processDirectory.size(); i++){
+    processRun << left << setw(6) << processDirectory[i].label;
+  }
+  processRun << endl;
+  processRun << "arrival time: ";
+  for(int i = 0; i < processDirectory.size(); i++){
+    processRun << left << setw(6) << processDirectory[i].arrivalTime;
+  }
+  processRun << endl;
+  processRun << "      length: ";
+  for(int i = 0; i < processDirectory.size(); i++){
+    processRun << left << setw(6) << processDirectory[i].length;
+  }
+
   sortProcessDirectory(processDirectory);
 
-  processRun << endl << "** PROCESS ARRIVAL ORDER **" << endl;
+  processRun << endl << endl << "** PROCESS ARRIVAL ORDER **" << endl;
+  processRun << "     process: ";
   for(int i = 0; i < processDirectory.size(); i++){
-    processRun << processDirectory[i].label << " ";
+    processRun << left << setw(6) << processDirectory[i].label;
   }
 
   vector<timelineNode> FCFSTimeline;
   getFCFSTimeline(processDirectory, FCFSTimeline);
 
   processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
-  processRun << "process: ";
+  processRun << "     process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].label;
   }
   processRun << endl;
-  processRun << "time:    ";
+  processRun << "        time: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
   }
@@ -77,14 +100,28 @@ int main(){
   getSJFTimeline(processDirectory, SJFTimeline);
 
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
-  processRun << "process: ";
+  processRun << "     process: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].label;
   }
   processRun << endl;
-  processRun << "time:    ";
+  processRun << "        time: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
+  }
+
+  vector<timelineNode> RRTimeline;
+  getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline);
+
+  processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
+  processRun << "     process: ";
+  for(int i = 0; i < RRTimeline.size(); i++){
+    processRun << left << setw(6) << RRTimeline[i].label;
+  }
+  processRun << endl;
+  processRun << "        time: ";
+  for(int i = 0; i < RRTimeline.size(); i++){
+    processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
 
   processQueue.close();
@@ -141,7 +178,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
     if( (sortedProcesses[overallIterator].arrivalTime > cumulativeTime) && (waitingProcesses.size() == 0)){
       additiveNode.label = NO_PROCESS_LABEL;
       additiveNode.startAtTime = cumulativeTime;
-      additiveNode.finishAtTime = sortedProcesses[overallIterator+1].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+      additiveNode.finishAtTime = sortedProcesses[overallIterator].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
       timeline.push_back(additiveNode);
       cumulativeTime = sortedProcesses[overallIterator].arrivalTime;
     }
@@ -189,4 +226,51 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
   additiveNode.startAtTime = cumulativeTime;
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
+}
+bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProcess){
+  bool TimeRemaining = false;
+  for(int i = 0; i < UpToProcess; i++){
+    if(SortedProcesses[i].timeRemaining > 0){
+      TimeRemaining = true;
+      i = UpToProcess + 1;
+    }
+  }
+  return TimeRemaining;
+}
+void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline){
+  int cumulativeTime = 0;
+  timelineNode additiveNode;
+  while(RRTimeRemainingChecker(sortedProcesses, (sortedProcesses.size()))){
+    for(int i = 0; i < sortedProcesses.size(); i++){
+      if( (sortedProcesses[i].arrivalTime > cumulativeTime) && !RRTimeRemainingChecker(sortedProcesses, i)){
+        additiveNode.label = NO_PROCESS_LABEL;
+        additiveNode.startAtTime = cumulativeTime;
+        additiveNode.finishAtTime = sortedProcesses[i].arrivalTime; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+        timeline.push_back(additiveNode);
+        cumulativeTime = sortedProcesses[i].arrivalTime;
+      }
+      if((sortedProcesses[i].arrivalTime > cumulativeTime) && RRTimeRemainingChecker(sortedProcesses, i)){
+        i = - 1;
+      }
+      else if(sortedProcesses[i].timeRemaining > 0){
+        additiveNode.label = sortedProcesses[i].label;
+        additiveNode.startAtTime = cumulativeTime;
+        if(sortedProcesses[i].timeRemaining >= timeQuantum){
+          additiveNode.finishAtTime = cumulativeTime + timeQuantum; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+          cumulativeTime += timeQuantum;
+          sortedProcesses[i].timeRemaining -= timeQuantum;
+        }
+        else{
+          additiveNode.finishAtTime = cumulativeTime + sortedProcesses[i].timeRemaining;
+          cumulativeTime += sortedProcesses[i].timeRemaining;
+          sortedProcesses[i].timeRemaining = 0;
+        }
+        timeline.push_back(additiveNode);
+      }
+    }
+  }
+    additiveNode.label = "END";
+    additiveNode.startAtTime = cumulativeTime;
+    additiveNode.finishAtTime = cumulativeTime;
+    timeline.push_back(additiveNode);
 }
