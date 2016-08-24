@@ -1,0 +1,32 @@
+** PROCESS INPUT **
+A 0 3
+B 2 6
+C 4 4
+D 6 5
+E 8 2
+
+** INTERPRETED PROCESS INPUT **
+         process: A     B     C     D     E     
+    arrival time: 0     2     4     6     8     
+          length: 3     6     4     5     2     
+
+** PROCESS ARRIVAL ORDER **
+         process: A     B     C     D     E     
+
+** FCFS EXECUTION TIMELINE **
+         process: A     B     C     D     E     END   
+            time: 0     3     9     13    18    20    
+   ~waiting time: 4.6
+~turnaround time: 8.6
+
+** SJF EXECUTION TIMELINE **
+         process: A     B     E     C     D     END   
+            time: 0     3     9     11    15    20    
+   ~waiting time: 3.6
+~turnaround time: 7.6
+
+** ROUND ROBIN EXECUTION TIMELINE **
+         process: A     B     C     D     E     B     C     D     END   
+            time: 0     3     6     9     12    14    17    18    20    
+   ~waiting time: 6.4
+~turnaround time: 10.4
