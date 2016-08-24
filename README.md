@@ -13,8 +13,9 @@ Given an example input .txt file:
 A 0 5
 B 2 3
 C 5 2
+D 12 3
 ```
-The first column contains the process label, that is to say: this example shows three processes with labels `A`, `B` and `C`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
+The first column contains the process label, that is to say: this example shows four processes with labels `A`, `B`, `C` and `D`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
 
 The process label is interpreted as string type should one wish to use more meaningful labels.
 The arrival time and length are interpreted as integer type. The units of time are arbitrary.
@@ -25,17 +26,17 @@ The input file can contain the proccesses in any order
 The output file contains an interpreted process input, for this example that would be:
 ```
 ** INTERPRETED PROCESS INPUT **
-     process: A     B     C        
-arrival time: 0     2     5        
-      length: 5     3     2         
+     process: A     B     C     D     
+arrival time: 0     2     5     12    
+      length: 5     3     2     3         
 ```
 The output file also contains an execution timeline based on each algorithm, for this example the FCFS timeline would be:
 ```
 ** FCFS EXECUTION TIMELINE **
-     process: A     B     C     END   
-        time: 0     5     8     10   
+     process: A     B     C     NONE  D     END   
+        time: 0     5     8     10    12    15    
 ```
-The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 4 (time is of integer type) process `A` was executing, then at time `5` process `B` started executing till time 7.
+The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE` which is specified as preprocessor directive and can be changed as the user desires.
 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
