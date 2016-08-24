@@ -6,7 +6,7 @@
 #include <iomanip>
 
 #define NO_PROCESS_LABEL "NONE" // The literal used as a label to describe the state when no process is executing
-#define TIME_QUANTUM 3
+#define TIME_QUANTUM 3 // Time qauntum for Round Robin scheduling;
 
 using namespace std;
 
@@ -31,8 +31,12 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
 
 int main(){
 
+  string inputFileName;
+  cout << endl << "Enter the name of the input file containing the processes: ";
+  cin >> inputFileName;
+
   ifstream processQueue;
-  processQueue.open("inputProcesses.txt");
+  processQueue.open(inputFileName.c_str());
   if(!processQueue.is_open()){
     cout << "Could not open process queue. Program will terminate.";
     exit(EXIT_FAILURE);
