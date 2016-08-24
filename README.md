@@ -32,11 +32,11 @@ The output file contains an interpreted process input, for this example that wou
 ```
 The output file also contains an execution timeline and average waiting and turnaround times based on each algorithm, for this example the FCFS timeline would be:
 ```
-** FCFS EXECUTION TIMELINE **
-         process: A     B     C     NONE  D     END   
-            time: 0     5     8     10    12    15    
-   ~waiting time: 1.5
-~turnaround time: 4.75  
+** ROUND ROBIN EXECUTION TIMELINE **
+         process: NONE  A     B     C     A     NONE  D     END   
+            time: 0     1     4     7     9     10    11    13    
+   ~waiting time: 2.75
+~turnaround time: 5.5 
 ```
 The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires.
 
