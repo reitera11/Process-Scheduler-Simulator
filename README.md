@@ -52,13 +52,7 @@ The user specified enquiry time functionality was also removed from 1.1 as this 
 ## Scheduler1.0
 Scheduler 1.0 implements FSFC scheduling and allows the user to enquire by means of console I/O which process was running at any time. Example input and output files ([*inputProcesses.txt*](Scheduler1.0/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.0/outputProcesses.txt))) are included in the repository folder.
 
-##Program Features
-Features currently part of the program:
-- FSFC or FIFO scheduling
-- Enquiry of which process was running at a user-specified time
-- SJF scheduling
-
-Features to be added to the program:
-- Average waiting and turnaround time
-- SRemainingJF scheduling
-- Export process execution timeline as a graph
+## To do
+- Add console I/O for picking input file
+- Update readme and file names
+- comment code
