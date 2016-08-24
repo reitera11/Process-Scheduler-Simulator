@@ -1,7 +1,7 @@
 # Process Scheduler Emulator
 
 A program which emulates the process scheduler in operating systems.
-So far the program is entirely in C++.
+The program is written in C++.
 
 The current stable version of the scheduler is: **Scheduler1.2**.
 
