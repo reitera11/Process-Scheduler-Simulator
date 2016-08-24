@@ -6,6 +6,7 @@
 #include <iomanip>
 
 #define NO_PROCESS_LABEL "NONE" // The literal used as a label to describe the state when no process is executing
+#define EXECUTION_COMPLETE_LABEL "END"
 #define TIME_QUANTUM 3 // Time qauntum for Round Robin scheduling;
 
 using namespace std;
@@ -172,7 +173,7 @@ void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode
     timeline.push_back(additiveNode);
     cumulativeTime += sortedProcesses[i].length;
   }
-  additiveNode.label = "END";
+  additiveNode.label = EXECUTION_COMPLETE_LABEL;
   additiveNode.startAtTime = cumulativeTime;
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
@@ -232,7 +233,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
       cumulativeTime += waitingProcesses[p].length;
     }
   }
-  additiveNode.label = "END";
+  additiveNode.label = EXECUTION_COMPLETE_LABEL;
   additiveNode.startAtTime = cumulativeTime;
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
@@ -279,7 +280,7 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
       }
     }
   }
-    additiveNode.label = "END";
+    additiveNode.label = EXECUTION_COMPLETE_LABEL;
     additiveNode.startAtTime = cumulativeTime;
     additiveNode.finishAtTime = cumulativeTime;
     timeline.push_back(additiveNode);

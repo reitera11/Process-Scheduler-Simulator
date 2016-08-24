@@ -21,7 +21,7 @@ The process label is interpreted as string type should one wish to use more mean
 The arrival time and length are interpreted as integer type. The units of time are arbitrary.
 
 There are no a priori restrictions on the number of processes the scheduler can handle.
-The input file can contain the proccesses in any order
+The input file can contain the processes in any order
 
 The output file contains an interpreted process input, for this example that would be:
 ```
@@ -45,7 +45,7 @@ Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and
 
 The image is a diagrmmatic representation of the execution timeline that corresponds to the example input and output files mentioned above.
 
-The Round Robin scheduler time quantum is a preprocessor directive specified on line 9 of the [*main.cpp()*](Scheduler1.2/main.cpp) and can be changed as the user desires. By default the value is at 3.
+The Round Robin scheduler time quantum is a preprocessor directive specified on line 10 of the [*main.cpp()*](Scheduler1.2/main.cpp) and can be changed as the user desires. By default the value is at 3.
 
 An interesting feature of this Round Robin implementation is the way it deals with gaps between processes. Given the following input, and assuming a time quantum of 3:
 
