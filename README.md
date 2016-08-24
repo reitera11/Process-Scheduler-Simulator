@@ -6,7 +6,7 @@ So far the program is entirely in C++.
 The current stable version of the scheduler is: **Scheduler1.3**.
 
 ##Input and Output File Formatting
-Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name '*inputProcesses.txt*', and the output file would have the name '*outputProcesses.txt*'.
+Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name '*inputProcesses.txt*', and the output file would have the name '*outputProcesses.txt*'.
 
 Given an example input .txt file:
 ```
