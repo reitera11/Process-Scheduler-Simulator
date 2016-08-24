@@ -3,7 +3,7 @@
 A program which emulates the process scheduler in operating systems.
 So far the program is entirely in C++.
 
-The current stable version of the scheduler is: **Scheduler1.2**.
+The current stable version of the scheduler is: **Scheduler1.3**.
 
 ##Input and Output File Formatting
 Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file mush have the name '*inputProcesses.txt*', and the output file would have the name '*outputProcesses.txt*'.
@@ -37,6 +37,9 @@ The output file also contains an execution timeline based on each algorithm, for
         time: 0     5     8     10    12    15    
 ```
 The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires.
+
+## Scheduler1.3
+An extension of Scheduler 1.2, Scheduler1.3 implements average waiting and turnaround times.
 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
