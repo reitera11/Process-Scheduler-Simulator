@@ -16,6 +16,11 @@ C 5 2
 ```
 The first column contains the process label, that is to say: this example shows three processes with labels `A`, `B` and `C`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
 
+The process label is interpreted as string type should one wish to use more meaningful labels.
+The arrival time and length are interpreted as integer type. The units of time are arbitrary.
+
+There are no a priori restrictions on the number of processes the scheduler can handle.
+
 The output file contains an interpreted process input, for this example that would be:
 ```
 ** INTERPRETED PROCESS INPUT **
@@ -23,10 +28,13 @@ The output file contains an interpreted process input, for this example that wou
 arrival time: 0     2     5        
       length: 5     3     2         
 ```
-The process label is interpreted as string type should one wish to use more meaningful labels.
-The arrival time and length are interpreted as integer type. The units of time are arbitrary.
-
-There are no a priori restrictions on the number of processes the scheduler can handle.
+The output file also contains an execution timeline based on each algorithm, for this example the FCFS timeline would be:
+```
+** FCFS EXECUTION TIMELINE **
+     process: A     B     C     END   
+        time: 0     5     8     10   
+```
+The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 4 (time is of integer type) process `A` was executing, then at time `5` process `B` was executing till time 7.
 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
