@@ -14,7 +14,7 @@ A 0 5
 B 2 3
 C 5 2
 ```
-The first column contains the process label, that is to say: this example shows three processes with labels `A`, `B` and `C`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of 0 and a length of 5.
+The first column contains the process label, that is to say: this example shows three processes with labels `A`, `B` and `C`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
 
 The output file contains an interpreted process input, for this example that would be:
 ```
@@ -24,8 +24,7 @@ arrival time: 0     2     5
       length: 5     3     2         
 ```
 The process label is interpreted as string type should one wish to use more meaningful labels.
-The arrival time and length are interpreted as integer type.
-No units of time have been specified.
+The arrival time and length are interpreted as integer type. The units of time are arbitrary.
 
 There are no a priori restrictions on the number of processes the scheduler can handle.
 
