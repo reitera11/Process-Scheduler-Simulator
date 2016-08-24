@@ -32,20 +32,24 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
 int main(){
 
   string inputFileName;
-  cout << endl << "Enter the name of the input file containing the processes: ";
+  cout << endl << "Enter the name of the input file containing the processes: " << endl;
   cin >> inputFileName;
-
+  cout << endl;
   ifstream processQueue;
   processQueue.open(inputFileName.c_str());
   if(!processQueue.is_open()){
-    cout << "Could not open process queue. Program will terminate.";
+    cout << "Could not open process queue. Program will terminate." << endl;
     exit(EXIT_FAILURE);
   }
 
+  string outputFileName;
+  cout << "Enter the name for the output file: " << endl;;
+  cin >> outputFileName;
+  cout << endl;
   ofstream processRun;
-  processRun.open("outputProcesses.txt");
+  processRun.open(outputFileName.c_str());
   if(!processRun.is_open()){
-    cout << "Could not open process run order. Program will terminate.";
+    cout << "Could not open process run order. Program will terminate." << endl;
     exit(EXIT_FAILURE);
   }
 
@@ -130,6 +134,8 @@ int main(){
 
   processQueue.close();
   processRun.close();
+
+  cout << "Execution succesful." << endl;
 return 0;
 }
 
