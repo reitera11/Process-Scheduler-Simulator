@@ -20,6 +20,7 @@ The process label is interpreted as string type should one wish to use more mean
 The arrival time and length are interpreted as integer type. The units of time are arbitrary.
 
 There are no a priori restrictions on the number of processes the scheduler can handle.
+The input file can contain the proccesses in any order
 
 The output file contains an interpreted process input, for this example that would be:
 ```
