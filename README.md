@@ -45,7 +45,7 @@ The image is a diagrmmatic representation of the execution timeline that corresp
 
 The Round Robin scheduler time quantum is a preprocessor directive specified on line 9 of the [*main.cpp()*](Scheduler1.2/main.cpp) and can be changed as the user desires. By default the value is at 3.
 
-An interesting feature of this Round Robin implementation is the way it deals with gaps between processes. Given the following input, and assuming a time quantum of 3.
+An interesting feature of this Round Robin implementation is the way it deals with gaps between processes. Given the following input, and assuming a time quantum of 3:
 
 ```
 A 1 4
