@@ -20,8 +20,10 @@ E 8 2
 ~turnaround time: 8.6
 
 ** SJF EXECUTION TIMELINE **
-       process: A     B     E     C     D     END   
-          time: 0     3     9     11    15    20    
+         process: A     B     E     C     D     END   
+            time: 0     3     9     11    15    20    
+   ~waiting time: 3.6
+~turnaround time: 7.6
 
 ** ROUND ROBIN EXECUTION TIMELINE **
         process: A     B     C     D     E     B     C     D     END   

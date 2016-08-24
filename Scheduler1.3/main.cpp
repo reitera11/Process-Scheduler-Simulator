@@ -26,7 +26,7 @@ struct timelineNode{
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
 void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, float& waitingTime);
-void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
+void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, float& waitingTime);
 bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProcess);
 void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline);
 
@@ -65,7 +65,6 @@ int main(){
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
   }
-
 
   processRun << endl << "** INTERPRETED PROCESS INPUT **" << endl;
   processRun << "         process: ";
@@ -119,18 +118,25 @@ int main(){
   processRun << endl << "~turnaround time: " << FCFSAverageTurnaroundTime;
 
   vector<timelineNode> SJFTimeline;
-  getSJFTimeline(processDirectory, SJFTimeline);
+  float SJFWaitingTime = 0;
+  float SJFAverageWaitingTime;
+  float SJFAverageTurnaroundTime;
+  getSJFTimeline(processDirectory, SJFTimeline, SJFWaitingTime);
 
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
-  processRun << "       process: ";
+  processRun << "         process: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].label;
   }
   processRun << endl;
-  processRun << "          time: ";
+  processRun << "            time: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
   }
+  SJFAverageWaitingTime = SJFWaitingTime/processNumber;
+  processRun << endl << "   ~waiting time: " << SJFAverageWaitingTime;
+  SJFAverageTurnaroundTime = (SJFWaitingTime + totalExecutionTime)/processNumber;
+  processRun << endl << "~turnaround time: " << SJFAverageTurnaroundTime;
 
   vector<timelineNode> RRTimeline;
   getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline);
@@ -193,12 +199,13 @@ void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode
   additiveNode.finishAtTime = cumulativeTime;
   timeline.push_back(additiveNode);
 }
-void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline){
+void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, float& waitingTime){
   int cumulativeTime = 0;
   timelineNode additiveNode;
   vector<process> waitingProcesses;
   int waitingProcessesAdded = 0;
   int overallIterator = 0;
+  waitingTime = 0.0;
   // bool processesAreWaiting; //add in for case when only one process is waiting. No need to sort vector etc.
   for(overallIterator; overallIterator < sortedProcesses.size(); overallIterator++){
     if( (sortedProcesses[overallIterator].arrivalTime > cumulativeTime) && (waitingProcesses.size() == 0)){
@@ -233,6 +240,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
     additiveNode.startAtTime = cumulativeTime;
     additiveNode.finishAtTime = cumulativeTime + waitingProcesses[0].length;
     timeline.push_back(additiveNode);
+    waitingTime += (cumulativeTime - waitingProcesses[0].arrivalTime);
     cumulativeTime += waitingProcesses[0].length;
     waitingProcesses.erase(waitingProcesses.begin());
 
@@ -245,6 +253,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
       additiveNode.startAtTime = cumulativeTime;
       additiveNode.finishAtTime = cumulativeTime + waitingProcesses[p].length;
       timeline.push_back(additiveNode);
+      waitingTime += (cumulativeTime - waitingProcesses[p].arrivalTime);
       cumulativeTime += waitingProcesses[p].length;
     }
   }
