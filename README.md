@@ -62,7 +62,7 @@ the Round Robin execution timeline is:
      process: NONE  A     B     C     A     NONE  D     END   
         time: 0     1     4     7     9     10    11    13    
 ```
-Notice that at time 9 process A begins executing again rather than waiting for process D to arrive. Since process A has a time of 1 left and the time quantum is 3, A finishes executing. At this point, time 10, D has not arrived and processes A, B and C have finished executing - the CPU is now idle and waits for D to arrive.
+Notice that at time `9` process `A` begins executing again rather than waiting for process `D` to arrive. Since process `A` has a time of 1 left and the time quantum is 3, `A` finishes executing. At this point, time `10`, `D` has not arrived and processes `A`, `B` and `C` have finished executing - the CPU is now idle and waits for `D` to arrive.
 
 This example is given in the files [*inputProcesses2.txt*](Scheduler1.2/inputProcesses2.txt) and [*outputProcesses2.txt*](Scheduler1.2/outputProcesses2.txt) in the Scheduler1.2 folder in this repository.
 
