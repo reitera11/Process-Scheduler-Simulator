@@ -34,7 +34,7 @@ The output file also contains an execution timeline based on each algorithm, for
      process: A     B     C     END   
         time: 0     5     8     10   
 ```
-The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 4 (time is of integer type) process `A` was executing, then at time `5` process `B` was executing till time 7.
+The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 4 (time is of integer type) process `A` was executing, then at time `5` process `B` started executing till time 7.
 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
