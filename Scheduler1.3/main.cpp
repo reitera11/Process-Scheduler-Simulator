@@ -25,7 +25,7 @@ struct timelineNode{
 };
 
 void sortProcessDirectory(vector<process>& unsortedProcesses);
-void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, int& waitingTime);
+void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, float& waitingTime);
 void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline);
 bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProcess);
 void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline);
@@ -68,17 +68,17 @@ int main(){
 
 
   processRun << endl << "** INTERPRETED PROCESS INPUT **" << endl;
-  processRun << "     process: ";
+  processRun << "         process: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].label;
   }
   processRun << endl;
-  processRun << "arrival time: ";
+  processRun << "    arrival time: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].arrivalTime;
   }
   processRun << endl;
-  processRun << "      length: ";
+  processRun << "          length: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].length;
   }
@@ -86,37 +86,48 @@ int main(){
   sortProcessDirectory(processDirectory);
 
   processRun << endl << endl << "** PROCESS ARRIVAL ORDER **" << endl;
-  processRun << "     process: ";
+  processRun << "         process: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].label;
   }
 
+  float totalExecutionTime = 0;
+  for(int i = 0; i < processDirectory.size(); i++){
+    totalExecutionTime += processDirectory[i].length;
+  }
+  float processNumber = processDirectory.size();
+
   vector<timelineNode> FCFSTimeline;
-  int FCFSWaitingTime = 0;
+  float FCFSWaitingTime = 0;
+  float FCFSAverageWaitingTime;
+  float FCFSAverageTurnaroundTime;
   getFCFSTimeline(processDirectory, FCFSTimeline, FCFSWaitingTime);
 
   processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
-  processRun << "     process: ";
+  processRun << "         process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].label;
   }
   processRun << endl;
-  processRun << "        time: ";
+  processRun << "            time: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
   }
-  cout << "waiting time: " << FCFSWaitingTime;
+  FCFSAverageWaitingTime = FCFSWaitingTime/processNumber;
+  processRun << endl << "   ~waiting time: " << FCFSAverageWaitingTime;
+  FCFSAverageTurnaroundTime = (FCFSWaitingTime + totalExecutionTime)/processNumber;
+  processRun << endl << "~turnaround time: " << FCFSAverageTurnaroundTime;
 
   vector<timelineNode> SJFTimeline;
   getSJFTimeline(processDirectory, SJFTimeline);
 
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
-  processRun << "     process: ";
+  processRun << "       process: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].label;
   }
   processRun << endl;
-  processRun << "        time: ";
+  processRun << "          time: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
   }
@@ -125,12 +136,12 @@ int main(){
   getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline);
 
   processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
-  processRun << "     process: ";
+  processRun << "        process: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].label;
   }
   processRun << endl;
-  processRun << "        time: ";
+  processRun << "           time: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
@@ -158,9 +169,9 @@ void sortProcessDirectory(vector<process>& unsortedProcesses){
     }
   }
 }
-void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, int& waitingTime){
+void getFCFSTimeline(const vector<process>& sortedProcesses, vector<timelineNode>& timeline, float& waitingTime){
   int cumulativeTime = 0;
-  waitingTime = 0;
+  waitingTime = 0.0;
   timelineNode additiveNode;
   for(int i = 0; i < sortedProcesses.size(); i++){
     if(sortedProcesses[i].arrivalTime > cumulativeTime){
