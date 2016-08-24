@@ -16,6 +16,7 @@ struct process{
   int arrivalTime;
   int length;
   int timeRemaining; // only used for Round Robin algorithm
+  int timeLastExecuted; // only used for Round Robin algorithm
 };
 
 struct timelineNode{
@@ -58,6 +59,7 @@ int main(){
   process additiveProcess;
   while(processQueue >> additiveProcess.label >> additiveProcess.arrivalTime >> additiveProcess.length){
     additiveProcess.timeRemaining = additiveProcess.length; // only used for Round Robin algorithm
+    additiveProcess.timeLastExecuted = additiveProcess.arrivalTime;
     processDirectory.push_back(additiveProcess);
   }
 
@@ -145,12 +147,12 @@ int main(){
   getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline, RRWaitingTime);
 
   processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
-  processRun << "        process: ";
+  processRun << "         process: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].label;
   }
   processRun << endl;
-  processRun << "           time: ";
+  processRun << "            time: ";
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
@@ -298,14 +300,16 @@ void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vect
       else if(sortedProcesses[i].timeRemaining > 0){
         additiveNode.label = sortedProcesses[i].label;
         additiveNode.startAtTime = cumulativeTime;
-        waitingTime += (cumulativeTime - sortedProcesses[0].arrivalTime);
+        waitingTime += (cumulativeTime - sortedProcesses[i].timeLastExecuted);
         if(sortedProcesses[i].timeRemaining >= timeQuantum){
           additiveNode.finishAtTime = cumulativeTime + timeQuantum; //No risk in accessing non-existing elements since a NO_PROCESS_LABEL cannot occur as the last 'process'
+          sortedProcesses[i].timeLastExecuted = cumulativeTime + timeQuantum;
           cumulativeTime += timeQuantum;
           sortedProcesses[i].timeRemaining -= timeQuantum;
         }
         else{
           additiveNode.finishAtTime = cumulativeTime + sortedProcesses[i].timeRemaining;
+          sortedProcesses[i].timeLastExecuted = cumulativeTime + sortedProcesses[i].timeRemaining;
           cumulativeTime += sortedProcesses[i].timeRemaining;
           sortedProcesses[i].timeRemaining = 0;
         }

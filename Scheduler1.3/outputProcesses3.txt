@@ -26,7 +26,7 @@ E 8 2
 ~turnaround time: 7.6
 
 ** ROUND ROBIN EXECUTION TIMELINE **
-        process: A     B     C     D     E     B     C     D     END   
-           time: 0     3     6     9     12    14    17    18    20    
-   ~waiting time: 15.8
-~turnaround time: 19.8
+         process: A     B     C     D     E     B     C     D     END   
+            time: 0     3     6     9     12    14    17    18    20    
+   ~waiting time: 6.4
+~turnaround time: 10.4
