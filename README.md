@@ -26,15 +26,17 @@ The input file can contain the processes in any order
 The output file contains an interpreted process input, for this example that would be:
 ```
 ** INTERPRETED PROCESS INPUT **
-     process: A     B     C     D     
-arrival time: 0     2     5     12    
-      length: 5     3     2     3         
+         process: A     B     C     D     
+    arrival time: 0     2     5     12    
+          length: 5     3     2     3        
 ```
-The output file also contains an execution timeline based on each algorithm, for this example the FCFS timeline would be:
+The output file also contains an execution timeline and average waiting and turnaround times based on each algorithm, for this example the FCFS timeline would be:
 ```
 ** FCFS EXECUTION TIMELINE **
-     process: A     B     C     NONE  D     END   
-        time: 0     5     8     10    12    15    
+         process: A     B     C     NONE  D     END   
+            time: 0     5     8     10    12    15    
+   ~waiting time: 1.5
+~turnaround time: 4.75  
 ```
 The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires.
 
