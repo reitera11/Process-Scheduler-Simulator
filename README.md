@@ -74,7 +74,7 @@ Notice that at time `9` process `A` begins executing again rather than waiting f
 This example is given in the files [*inputProcesses2.txt*](Scheduler1.2/inputProcesses2.txt) and [*outputProcesses2.txt*](Scheduler1.2/outputProcesses2.txt) in the Scheduler1.2 folder in this repository.
 
 ## Scheduler1.1
-Scheduler 1.1 implements FSFC and SJF scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.1/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.1/outputProcesses.txt)) are included in the Scheduler1.1 repository folder.
+Scheduler 1.1 implements FSFC and SJF scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.1/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.1/outputProcesses.txt) are included in the Scheduler1.1 repository folder.
 
 There are a number of minor differences between Scheduler1.0 and Scheduler1.1 such as variable and attribute names. These differences were implemented in the development between 1.0 and 1.1 to allow for more scheduling algorithms to be included while maintaining consistency and code readability.
 The user specified enquiry time functionality was also removed from 1.1 as this was mainly used for debugging purposes in early development.
