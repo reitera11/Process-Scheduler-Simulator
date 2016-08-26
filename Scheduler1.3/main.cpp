@@ -160,6 +160,7 @@ int main(){
   processRun << endl << "   ~waiting time: " << RRAverageWaitingTime;
   RRAverageTurnaroundTime = (RRWaitingTime + totalExecutionTime)/processNumber;
   processRun << endl << "~turnaround time: " << RRAverageTurnaroundTime;
+  processRun << endl << "    time quantum: " << TIME_QUANTUM;
 
   processQueue.close();
   processRun.close();

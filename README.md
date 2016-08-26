@@ -5,7 +5,7 @@ So far the program is entirely in C++.
 
 The current stable version of the scheduler is: **Scheduler1.3**.
 
-##Input and Output File Formatting
+##Input and Output Files
 Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name '*inputProcesses.txt*', and the output file would have the name '*outputProcesses.txt*'.
 
 Given an example input .txt file:
@@ -39,10 +39,10 @@ The output file also contains an execution timeline and average waiting and turn
    ~waiting time: 1.5
 ~turnaround time: 4.75
 ```
-The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires.
+The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires. The preceding tilde indicates the waiting and turnaround time values are averages.  
 
 ## Scheduler1.3
-An extension of Scheduler 1.2, Scheduler1.3 implements average waiting and turnaround times.
+An extension of Scheduler 1.2, Scheduler1.3 implements average waiting and turnaround times for all scheduling algorithms.
 
 ## Scheduler1.2
 Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
@@ -66,8 +66,8 @@ the Round Robin execution timeline is:
 
 ```
 ** ROUND ROBIN EXECUTION TIMELINE **
-     process: NONE  A     B     C     A     NONE  D     END   
-        time: 0     1     4     7     9     10    11    13    
+         process: A     B     C     A     NONE  D     END   
+            time: 0     3     6     8     10    12    15      
 ```
 Notice that at time `9` process `A` begins executing again rather than waiting for process `D` to arrive. Since process `A` has a time of 1 left and the time quantum is 3, `A` finishes executing. At this point, time `10`, `D` has not arrived and processes `A`, `B` and `C` have finished executing - the CPU is now idle and waits for `D` to arrive.
 
@@ -81,6 +81,3 @@ The user specified enquiry time functionality was also removed from 1.1 as this 
 
 ## Scheduler1.0
 Scheduler 1.0 implements FSFC scheduling and allows the user to enquire by means of console I/O which process was running at any time. Example input and output files ([*inputProcesses.txt*](Scheduler1.0/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.0/outputProcesses.txt))) are included in the Scheduler1.0 repository folder.
-
-## To do
-- comment code
