@@ -15,8 +15,8 @@ struct process{
   string label;
   int arrivalTime;
   int length;
-  int timeRemaining; // only used for Round Robin algorithm
-  int timeLastExecuted; // only used for Round Robin algorithm
+  int timeRemaining; // Only used for Round Robin algorithm
+  int timeLastExecuted; // Only used for Round Robin waiting and turnaround times
 };
 
 struct timelineNode{
@@ -32,6 +32,8 @@ bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProc
 void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline, float& waitingTime);
 
 int main(){
+
+  // ____________________INPUT & OUTPUT FILES____________________
 
   string inputFileName;
   cout << endl << "Enter the name of the input file containing the processes: " << endl;
@@ -55,18 +57,18 @@ int main(){
     exit(EXIT_FAILURE);
   }
 
-  vector<process> processDirectory;
-  process additiveProcess;
+  vector<process> processDirectory; // Vector which will contain all input processe
+  process additiveProcess; // Element to add to vector
   while(processQueue >> additiveProcess.label >> additiveProcess.arrivalTime >> additiveProcess.length){
-    additiveProcess.timeRemaining = additiveProcess.length; // only used for Round Robin algorithm
-    additiveProcess.timeLastExecuted = additiveProcess.arrivalTime;
+    additiveProcess.timeRemaining = additiveProcess.length; // Only used for Round Robin algorithm
+    additiveProcess.timeLastExecuted = additiveProcess.arrivalTime; // Only used for Round Robin waiting and turnaround times
     processDirectory.push_back(additiveProcess);
   }
 
   processRun << "** PROCESS INPUT **" << endl;
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << processDirectory[i].label << " " << processDirectory[i].arrivalTime << " " << processDirectory[i].length << endl;
-  }
+  } // Print onto output file: input file
 
   processRun << endl << "** INTERPRETED PROCESS INPUT **" << endl;
   processRun << "         process: ";
@@ -82,28 +84,36 @@ int main(){
   processRun << "          length: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].length;
-  }
+  } // Print onto output file: process information in a clear format
 
-  sortProcessDirectory(processDirectory);
+
+// ____________________TIMELINES____________________
+
+  sortProcessDirectory(processDirectory); // Sort processes based on arrival time
 
   processRun << endl << endl << "** PROCESS ARRIVAL ORDER **" << endl;
   processRun << "         process: ";
   for(int i = 0; i < processDirectory.size(); i++){
     processRun << left << setw(6) << processDirectory[i].label;
-  }
+  } // Print onto output file: process arrival order since processes were not sorted previous to this
 
+  // Calculate total execution time and number of processes - used for waiting and turnaround times
   float totalExecutionTime = 0;
   for(int i = 0; i < processDirectory.size(); i++){
     totalExecutionTime += processDirectory[i].length;
   }
   float processNumber = processDirectory.size();
 
+
+// ____________________FCFS____________________
+
   vector<timelineNode> FCFSTimeline;
   float FCFSWaitingTime = 0;
   float FCFSAverageWaitingTime;
   float FCFSAverageTurnaroundTime;
-  getFCFSTimeline(processDirectory, FCFSTimeline, FCFSWaitingTime);
+  getFCFSTimeline(processDirectory, FCFSTimeline, FCFSWaitingTime); // Create FCFS timeline
 
+  // Print onto output file: timline
   processRun << endl << endl << "** FCFS EXECUTION TIMELINE **" << endl;
   processRun << "         process: ";
   for(int i = 0; i < FCFSTimeline.size(); i++){
@@ -114,17 +124,23 @@ int main(){
   for(int i = 0; i < FCFSTimeline.size(); i++){
     processRun << left << setw(6) << FCFSTimeline[i].startAtTime;
   }
+
+  // Print onto output file: waiting and turnaround times
   FCFSAverageWaitingTime = FCFSWaitingTime/processNumber;
   processRun << endl << "   ~waiting time: " << FCFSAverageWaitingTime;
   FCFSAverageTurnaroundTime = (FCFSWaitingTime + totalExecutionTime)/processNumber;
   processRun << endl << "~turnaround time: " << FCFSAverageTurnaroundTime;
 
+
+// ____________________SJF____________________
+
   vector<timelineNode> SJFTimeline;
   float SJFWaitingTime = 0;
   float SJFAverageWaitingTime;
   float SJFAverageTurnaroundTime;
-  getSJFTimeline(processDirectory, SJFTimeline, SJFWaitingTime);
+  getSJFTimeline(processDirectory, SJFTimeline, SJFWaitingTime); // Create SJF timeline
 
+  // Print onto output file: timline
   processRun << endl << endl << "** SJF EXECUTION TIMELINE **" << endl;
   processRun << "         process: ";
   for(int i = 0; i < SJFTimeline.size(); i++){
@@ -135,17 +151,23 @@ int main(){
   for(int i = 0; i < SJFTimeline.size(); i++){
     processRun << left << setw(6) << SJFTimeline[i].startAtTime;
   }
+
+  // Print onto output file: waiting and turnaround times
   SJFAverageWaitingTime = SJFWaitingTime/processNumber;
   processRun << endl << "   ~waiting time: " << SJFAverageWaitingTime;
   SJFAverageTurnaroundTime = (SJFWaitingTime + totalExecutionTime)/processNumber;
   processRun << endl << "~turnaround time: " << SJFAverageTurnaroundTime;
 
+
+// ____________________ROUND ROBIN____________________
+
   vector<timelineNode> RRTimeline;
   float RRWaitingTime = 0;
   float RRAverageWaitingTime;
   float RRAverageTurnaroundTime;
-  getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline, RRWaitingTime);
+  getRRTimeline(processDirectory, TIME_QUANTUM, RRTimeline, RRWaitingTime); // Create Round Robin timeline
 
+  // Print onto output file: timline
   processRun << endl << endl << "** ROUND ROBIN EXECUTION TIMELINE **" << endl;
   processRun << "         process: ";
   for(int i = 0; i < RRTimeline.size(); i++){
@@ -156,17 +178,22 @@ int main(){
   for(int i = 0; i < RRTimeline.size(); i++){
     processRun << left << setw(6) << RRTimeline[i].startAtTime;
   }
+
+  // Print onto output file: waiting and turnaround times
   RRAverageWaitingTime = RRWaitingTime/processNumber;
   processRun << endl << "   ~waiting time: " << RRAverageWaitingTime;
   RRAverageTurnaroundTime = (RRWaitingTime + totalExecutionTime)/processNumber;
   processRun << endl << "~turnaround time: " << RRAverageTurnaroundTime;
   processRun << endl << "    time quantum: " << TIME_QUANTUM;
 
+
+// ____________________INPUT & OUTPUT FILES____________________
+
   processQueue.close();
   processRun.close();
 
   cout << "Execution succesful." << endl;
-return 0;
+  return 0;
 }
 
 void sortProcessDirectory(vector<process>& unsortedProcesses){
