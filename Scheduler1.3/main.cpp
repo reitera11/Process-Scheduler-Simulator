@@ -31,6 +31,7 @@ void getSJFTimeline(const vector<process>& sortedProcesses, vector<timelineNode>
 bool RRTimeRemainingChecker(const vector<process>& SortedProcesses, int UpToProcess);
 void getRRTimeline(vector<process>& sortedProcesses, const int timeQuantum, vector<timelineNode>& timeline, float& waitingTime);
 
+
 int main(){
 
   // ____________________INPUT & OUTPUT FILES____________________
@@ -195,6 +196,7 @@ int main(){
   cout << "Execution succesful." << endl;
   return 0;
 }
+
 
 void sortProcessDirectory(vector<process>& unsortedProcesses){
   for(int j = 0; j < unsortedProcesses.size() - 1; j++){ // bubble sort
