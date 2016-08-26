@@ -6,8 +6,8 @@
 #include <iomanip>
 
 #define NO_PROCESS_LABEL "NONE" // The literal used as a label to describe the state when no process is executing
-#define EXECUTION_COMPLETE_LABEL "END"
-#define TIME_QUANTUM 3 // Time qauntum for Round Robin scheduling;
+#define EXECUTION_COMPLETE_LABEL "END" // The literal used as a label to describe the state when all processes have finished executing
+#define TIME_QUANTUM 3 // Time qauntum for Round Robin scheduling
 
 using namespace std;
 
@@ -37,7 +37,7 @@ int main(){
   cout << endl << "Enter the name of the input file containing the processes: " << endl;
   cin >> inputFileName;
   cout << endl;
-  ifstream processQueue;
+  ifstream processQueue; // Input file containing processes
   processQueue.open(inputFileName.c_str());
   if(!processQueue.is_open()){
     cout << "Could not open process queue. Program will terminate." << endl;
@@ -48,7 +48,7 @@ int main(){
   cout << "Enter the name for the output file: " << endl;;
   cin >> outputFileName;
   cout << endl;
-  ofstream processRun;
+  ofstream processRun; // Output file to contain process execution timelines
   processRun.open(outputFileName.c_str());
   if(!processRun.is_open()){
     cout << "Could not open process run order. Program will terminate." << endl;
