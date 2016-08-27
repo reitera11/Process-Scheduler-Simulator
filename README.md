@@ -6,7 +6,7 @@ So far the program is entirely in C++.
 The current stable version of the scheduler is: **Scheduler1.3**.
 
 ##Running the Scheduler
-The folders in this repository contain source code files *main.cpp* which can be compiled. The scheduler requires an input *.txt* file:
+The folders in this repository contain source code files *main.cpp* which can be compiled. The scheduler requires an input *.txt* file, the format of which is explained below.
 
 (Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*)
 
