@@ -6,7 +6,7 @@ So far the program is entirely in C++.
 The current stable version of the scheduler is: **Scheduler1.3**.
 
 ##Input and Output Files
-Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name '*inputProcesses.txt*', and the output file would have the name '*outputProcesses.txt*'.
+Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*.
 
 Given an example input .txt file:
 ```
@@ -15,13 +15,12 @@ B 2 3
 C 5 2
 D 12 3
 ```
-The first column contains the process label, that is to say: this example shows four processes with labels `A`, `B`, `C` and `D`. The second column column contains the process arrival time, and the third shows the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
+The first column contains the process label, the second column column contains the process arrival time and the third contains the process length, that is to say: this example shows a process with label `A`, an arrival time of `0` and a length of `5`.
 
 The process label is interpreted as string type should one wish to use more meaningful labels.
 The arrival time and length are interpreted as integer type. The units of time are arbitrary.
 
-There are no a priori restrictions on the number of processes the scheduler can handle.
-The input file can contain the processes in any order
+The input file can contain the processes in any order and there are no a priori restrictions on the number of processes the scheduler can handle.
 
 The output file contains an interpreted process input, for this example that would be:
 ```
@@ -30,7 +29,7 @@ The output file contains an interpreted process input, for this example that wou
     arrival time: 0     2     5     12    
           length: 5     3     2     3        
 ```
-The output file also contains an execution timeline and average waiting and turnaround times based on each algorithm, for this example the FCFS timeline would be:
+The output file also contains an execution timeline and average waiting and turnaround time based on each algorithm; for this example the FCFS timeline would be:
 
 ```
 ** FCFS EXECUTION TIMELINE **
@@ -39,13 +38,13 @@ The output file also contains an execution timeline and average waiting and turn
    ~waiting time: 1.5
 ~turnaround time: 4.75
 ```
-The timeline shows the process and the time it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle since process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE`, while the execution of all processes is represented by a process label of `END`  both of which are specified as preprocessor directives and can be changed as the user desires. The preceding tilde indicates the waiting and turnaround time values are averages.  
+The timeline shows the process that was executing and the time that it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle because process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE` while the execution of all processes is represented by a process label of `END` (both of which are specified as preprocessor directives and can be changed as the user desires).The preceding tilde indicates that the waiting and turnaround time are averages values.  
 
 ## Scheduler1.3
 An extension of Scheduler 1.2, Scheduler1.3 implements average waiting and turnaround times for all scheduling algorithms.
 
 ## Scheduler1.2
-Scheduler 1.2 implements FSFC, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
+Scheduler 1.2 implements FCFS, SJF and Round Robin scheduling. Example input and output files ([*inputProcesses.txt*](Scheduler1.2/inputProcesses.txt) and [*outputProcesses.txt*](Scheduler1.2/outputProcesses.txt)) are included in the repository folder. Furthermore, an image ([*roundRobinExample.png*](Scheduler1.2/roundRobinExample.png)) [1], is also included in the repository folder.
 
 [1] - Created by Wikipedia user [Maxtremus](https://en.wikipedia.org/wiki/Round-robin_scheduling#/media/File:Round-robin_schedule_quantum_3.png "Round Robin example image credits")
 
