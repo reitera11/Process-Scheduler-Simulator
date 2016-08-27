@@ -5,8 +5,10 @@ So far the program is entirely in C++.
 
 The current stable version of the scheduler is: **Scheduler1.3**.
 
-##Input and Output Files
-Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*.
+##Running the Scheduler
+The folders in this repository contain source code files *main.cpp* which can be compiled. The scheduler requires an input *.txt*:
+
+(Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*)
 
 Given an example input .txt file:
 ```
@@ -38,7 +40,7 @@ The output file also contains an execution timeline and average waiting and turn
    ~waiting time: 1.5
 ~turnaround time: 4.75
 ```
-The timeline shows the process that was executing and the time that it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle because process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE` while the execution of all processes is represented by a process label of `END` (both of which are specified as preprocessor directives and can be changed as the user desires).The preceding tilde indicates that the waiting and turnaround time are averages values.  
+The timeline shows the process that was executing and the time that it started executing, that is to say: this timeline shows that between time `0` and time 5 process `A` was executing, then at time `5` process `B` started executing till time 8. Process `C` starts executing at time `8` and is of length 2, thus at time `10` it has finished executing and the CPU is idle because process `D` does not arrive till time `12`. The idleness of the CPU is represented by a process label of `NONE` while the execution of all processes is represented by a process label of `END` (both of which are specified as preprocessor directives and can be changed as the user desires).The preceding tilde indicates that the waiting and turnaround time are averages values.
 
 ## Scheduler1.3
 An extension of Scheduler 1.2, Scheduler1.3 implements average waiting and turnaround times for all scheduling algorithms.
