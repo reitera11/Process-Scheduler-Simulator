@@ -11,7 +11,7 @@ The folders in this repository contain source code files *main.cpp* which can be
 (Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*)
 
 Given an example input *.txt* file:
-```C++
+```C
 A 0 5
 B 2 3
 C 5 2
@@ -25,7 +25,7 @@ The arrival time and length are interpreted as integer type. The units of time a
 The input file can contain the processes in any order and there are no a priori restrictions on the number of processes the scheduler can handle.
 
 The output file contains an interpreted process input, for this example that would be:
-```C++
+```C
 ** INTERPRETED PROCESS INPUT **
          process: A     B     C     D     
     arrival time: 0     2     5     12    
@@ -33,7 +33,7 @@ The output file contains an interpreted process input, for this example that wou
 ```
 The output file also contains an execution timeline and average waiting and turnaround time based on each algorithm; for this example the FCFS timeline would be:
 
-```C++
+```
 ** FCFS EXECUTION TIMELINE **
          process: A     B     C     NONE  D     END   
             time: 0     5     8     10    12    15    
