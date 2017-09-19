@@ -5,13 +5,15 @@ So far the program is entirely in C++.
 
 The current stable version of the scheduler is: **Scheduler1.3**.
 
-##Running the Scheduler
-The folders in this repository contain source code files *main.cpp* which can be compiled. The scheduler requires an input *.txt* file, the format of which is explained below.
+This work was completed in **September 2016**.
 
-(Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name *inputProcesses.txt*, and the output file would have the name *outputProcesses.txt*)
+## Running the Scheduler
+The versionfolders in this repository each contain a source code file `main.cpp` which can be compiled. The scheduler requires an input `.txt` file, the format of which is explained below.
+
+(Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name `inputProcesses.txt`, and the output file would have the name `outputProcesses.txt`.)
 
 Given an example input *.txt* file:
-```C
+```
 A 0 5
 B 2 3
 C 5 2
@@ -25,7 +27,7 @@ The arrival time and length are interpreted as integer type. The units of time a
 The input file can contain the processes in any order and there are no a priori restrictions on the number of processes the scheduler can handle.
 
 The output file contains an interpreted process input, for this example that would be:
-```C
+```
 ** INTERPRETED PROCESS INPUT **
          process: A     B     C     D     
     arrival time: 0     2     5     12    
@@ -56,7 +58,7 @@ The Round Robin scheduler time quantum is a preprocessor directive specified on 
 
 An interesting feature of this Round Robin implementation is the way it deals with gaps between processes. Given the following input, and assuming a time quantum of 3:
 
-```C++
+```
 A 1 4
 B 2 3
 C 3 2
@@ -65,7 +67,7 @@ D 11 2
 
 the Round Robin execution timeline is:
 
-```C++
+```
 ** ROUND ROBIN EXECUTION TIMELINE **
          process: A     B     C     A     NONE  D     END   
             time: 0     3     6     8     10    12    15      
