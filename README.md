@@ -12,7 +12,7 @@ The versionfolders in this repository each contain a source code file `main.cpp`
 
 (Note: Scheduler1.2 onwards allow the user to specify input and output file names through the console. Previous to this the input file must have the name `inputProcesses.txt`, and the output file would have the name `outputProcesses.txt`.)
 
-Given an example input *.txt* file:
+Given an example input `.txt` file:
 ```
 A 0 5
 B 2 3
